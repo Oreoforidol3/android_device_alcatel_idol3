@@ -494,7 +494,7 @@ service p2p_supplicant /system/bin/wpa_supplicant \
     disabled
     oneshot
 
-service wpa_supplicant /system/bin/wpa_supplicant \
+service wpa_supplicant /vendor/bin/hw/wpa_supplicant \
     -iwlan0 -Dnl80211 -c/data/misc/wifi/wpa_supplicant.conf \
     -I/system/etc/wifi/wpa_supplicant_overlay.conf \
     -O/data/misc/wifi/sockets -dd \
@@ -627,4 +627,5 @@ service qcom-mem /system/bin/sh /system/etc/init.qcom.mem.sh
 
 on load_system_props_action
     start qcom-opengles
+
 
