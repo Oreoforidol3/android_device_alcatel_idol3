@@ -29,10 +29,11 @@
 #include <fcntl.h>
 #include <unistd.h>
 
+#include <android-base/properties.h>
 #include "vendor_init.h"
 #include "property_service.h"
-#include "log.h"
-#include "util.h"
+
+using android::base::GetProperty;
 
 static int read_file2(const char *fname, char *data, int max_size)
 {
@@ -61,7 +62,7 @@ void init_alarm_boot_properties()
 {
     char const *alarm_file = "/proc/sys/kernel/boot_reason";
     char buf[64];
-    std::string tmp = property_get("ro.boot.alarmboot");
+    std::string tmp = GetProperty("ro.boot.alarmboot", "");
 
     if (read_file2(alarm_file, buf, sizeof(buf))) {
         /*
@@ -111,11 +112,11 @@ void vendor_load_properties()
 {
     int rc;
 
-    std::string platform = property_get("ro.board.platform");
+    std::string platform = GetProperty("ro.board.platform", "");
     if (platform != ANDROID_TARGET)
         return;
 
-    std::string curef_version = property_get("ro.cm.curef");
+    std::string curef_version = GetProperty("ro.cm.curef", "");
 
     if (curef_version == "6045I") {
         /* 6045I (North America) */
@@ -167,6 +168,4 @@ void vendor_load_properties()
        property_set("ro.product.model", "TCL IDOL3");
     }
 
-        std::string model = property_get("ro.product.model");
-        INFO("Found curef_version id %s setting build properties for %s model\n", curef_version.c_str(), model.c_str());
-    }
+}
