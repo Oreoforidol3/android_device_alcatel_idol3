@@ -461,7 +461,7 @@ on property:hw.fm.init=1
 service qmuxd /system/bin/qmuxd
     class main
     user root
-    group radio audio bluetooth gps nfc qcom_diag
+    group radio audio bluetooth gps nfc diag
 
 service netmgrd /system/bin/netmgrd
     class core
@@ -514,7 +514,7 @@ service wpa_supplicant /vendor/bin/hw/wpa_supplicant \
 #service loc_launcher /system/bin/loc_launcher
     #loc_launcher will start as root and set its uid to gps
 #    class late_start
-#    group gps inet net_raw qcom_diag net_admin wifi
+#    group gps inet net_raw diag net_admin wifi
 
 service hostapd /system/bin/hostapd -dd /data/hostapd/hostapd.conf
     class late_start
@@ -534,7 +534,7 @@ service ril-daemon1 /system/bin/rild -c 2
     socket cutback stream 660 media radio
     user root
     disabled
-    group radio cache inet misc audio sdcard_r sdcard_rw qcom_diag log
+    group radio cache inet misc audio sdcard_r sdcard_rw diag log
 
 service charger /charger
     class charger
