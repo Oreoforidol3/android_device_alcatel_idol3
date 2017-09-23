@@ -1,6 +1,5 @@
-# Media
+# OMX
 PRODUCT_PACKAGES += \
-    libextmedia_jni \
     libOmxAacEnc \
     libOmxAmrEnc \
     libOmxCore \
