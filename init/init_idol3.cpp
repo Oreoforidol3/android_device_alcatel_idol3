@@ -30,8 +30,9 @@
 #include <unistd.h>
 
 #include <android-base/properties.h>
-#include "vendor_init.h"
 #include "property_service.h"
+#include "vendor_init.h"
+#include "log.h"
 
 using android::base::GetProperty;
 
@@ -44,7 +45,7 @@ static int read_file2(const char *fname, char *data, int max_size)
 
     fd = open(fname, O_RDONLY);
     if (fd < 0) {
-        ERROR("failed to open '%s'\n", fname);
+        LOG(ERROR) <<  "failed to open '" << fname << "'\n";
         return 0;
     }
 
@@ -62,7 +63,7 @@ void init_alarm_boot_properties()
 {
     char const *alarm_file = "/proc/sys/kernel/boot_reason";
     char buf[64];
-    std::string tmp = GetProperty("ro.boot.alarmboot", "");
+    std::string tmp = GetProperty("ro.boot.alarmboot","");
 
     if (read_file2(alarm_file, buf, sizeof(buf))) {
         /*
@@ -112,11 +113,11 @@ void vendor_load_properties()
 {
     int rc;
 
-    std::string platform = GetProperty("ro.board.platform", "");
+    std::string platform = GetProperty("ro.board.platform","");
     if (platform != ANDROID_TARGET)
         return;
 
-    std::string curef_version = GetProperty("ro.cm.curef", "");
+    std::string curef_version = GetProperty("ro.cm.curef","");
 
     if (curef_version == "6045I") {
         /* 6045I (North America) */
@@ -167,5 +168,4 @@ void vendor_load_properties()
        gsm_properties("9");
        property_set("ro.product.model", "TCL IDOL3");
     }
-
 }
